@@ -1,0 +1,78 @@
+﻿@model ManagerMessageFb.Models.MessageViewModels
+@{
+    ViewBag.Title = "GetMessage";
+}
+<style>
+    .sender {
+        background-color: #3498db;
+        border-radius: 5px;
+        height: 50px;
+        width: 500px;
+        padding: 10px;
+        margin-left: 650px;
+    }
+
+    .repiced {
+        background-color: #bdc3c7;
+        border-radius: 5px;
+        height: 50px;
+        width: 500px;
+        padding: 10px;
+    }
+
+    .form-chat {
+        width: 1200px;
+        height: 700px;
+        background-color: antiquewhite;
+        padding: 10px 20px;
+        overflow: scroll;
+    }
+
+    .form-send {
+        margin-left: 830px;
+    }
+</style>
+<div class="form-chat">
+    @foreach (var message in Model.messageViews)
+    {
+        if (message.userIdFrom == Model.recipientId)
+        {
+            <h5 id="@message.id" class="sender">@message.message1</h5>
+        }
+        else
+        {
+            <h5 id="@message.id" class="repiced">@message.message1</h5>
+        }
+    }
+</div>
+<div class="form-send">
+    <input type="hidden" id="recipientId" name="recipientId" value="@Model.recipientId" />
+    <input class="input-lg" name="txtContent" id="txtContent" placeholder="Mời nhập nội dung..." />
+    <button class="btn btn-primary btn-send">Gửi</button>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $('.btn-send').click(function () {
+            var recipientId = $('#recipientId').val();
+            var message = $('#txtContent').val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Send","Chat")',
+                data: {
+                    recipientId: recipientId,
+                    message: message
+                }
+            }).done(function (response) {
+                if (response.success) {
+                    alert(response.message);
+                    $('#txtContent').val('');
+                }
+            }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Xảy ra vấn đề, vui lòng quay lại sao.");
+            });
+        });
+    </script>
+}
+
+
