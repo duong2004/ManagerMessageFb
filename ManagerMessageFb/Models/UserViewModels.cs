@@ -13,6 +13,7 @@ namespace ManagerMessageFb.Models
     {
         public string name { get; set; }
         public string id { get; set; }
+        public string profile_pic { get; set; }
     }
     public class MessageViewModel
     {

@@ -31,7 +31,7 @@ namespace ManagerMessageFb.Controllers
             foreach (var user in users)
             {
                 UserProfileViewModel profile = null;
-                var url = $"https://graph.facebook.com/{user.userMessage}?fields=name,id&access_token=EAALkiGIZAE5IBAG5H99RKPXn9oQ3RMe2yn24Iazcjy5wowXPOdZAf1XIOTpwfWvfx4GDqw47YOZBERGY28ZAdv8zwGbYv8Eok5lU05TLdiAw38aqIJNJzI3RKETiZAvZAimMZCZBZAK0CcZC3UtMrYhK4YwgEDwRthVYRfLIMRhIeeEOhe139UKOqC";
+                var url = $"https://graph.facebook.com/{user.userMessage}?fields=name,id,profile_pic&access_token=EAALkiGIZAE5IBAG5H99RKPXn9oQ3RMe2yn24Iazcjy5wowXPOdZAf1XIOTpwfWvfx4GDqw47YOZBERGY28ZAdv8zwGbYv8Eok5lU05TLdiAw38aqIJNJzI3RKETiZAvZAimMZCZBZAK0CcZC3UtMrYhK4YwgEDwRthVYRfLIMRhIeeEOhe139UKOqC";
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.BaseAddress = new Uri(url);
@@ -48,7 +48,8 @@ namespace ManagerMessageFb.Controllers
                         profile = new UserProfileViewModel()
                         {
                             id = user.userMessage,
-                            name = user.userMessage
+                            name = user.userMessage,
+                            profile_pic = ""
                         };
                     }
                 }
@@ -78,7 +79,7 @@ namespace ManagerMessageFb.Controllers
             foreach (var user in users)
             {
                 UserProfileViewModel profile = null;
-                var url = $"https://graph.facebook.com/{user.userMessage}?fields=name,id&access_token=EAALkiGIZAE5IBAG5H99RKPXn9oQ3RMe2yn24Iazcjy5wowXPOdZAf1XIOTpwfWvfx4GDqw47YOZBERGY28ZAdv8zwGbYv8Eok5lU05TLdiAw38aqIJNJzI3RKETiZAvZAimMZCZBZAK0CcZC3UtMrYhK4YwgEDwRthVYRfLIMRhIeeEOhe139UKOqC";
+                var url = $"https://graph.facebook.com/{user.userMessage}?fields=name,id,profile_pic&access_token=EAALkiGIZAE5IBAG5H99RKPXn9oQ3RMe2yn24Iazcjy5wowXPOdZAf1XIOTpwfWvfx4GDqw47YOZBERGY28ZAdv8zwGbYv8Eok5lU05TLdiAw38aqIJNJzI3RKETiZAvZAimMZCZBZAK0CcZC3UtMrYhK4YwgEDwRthVYRfLIMRhIeeEOhe139UKOqC";
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.BaseAddress = new Uri(url);
@@ -95,7 +96,8 @@ namespace ManagerMessageFb.Controllers
                         profile = new UserProfileViewModel()
                         {
                             id = user.userMessage,
-                            name = user.userMessage
+                            name = user.userMessage,
+                            profile_pic = ""
                         };
                     }
                 }
