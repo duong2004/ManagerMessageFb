@@ -9,6 +9,11 @@ namespace ManagerMessageFb.Models
     {
         public string userMessage { get; set; }
     }
+    public class UserProfileViewModel
+    {
+        public string name { get; set; }
+        public string id { get; set; }
+    }
     public class MessageViewModel
     {
         public string id { get; set; }

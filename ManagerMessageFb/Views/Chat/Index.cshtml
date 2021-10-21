@@ -7,6 +7,6 @@
 
 <h2>Quản trị viên A</h2>
 @foreach (var user in Model.userViews) { 
-    <a href="/chat/getmessage?a=@user.userMessage&b=@Model.id" target="_blank"><h4>@user.userMessage</h4></a><hr />
+    <a href="/chat/getmessage?a=@user.id&b=@Model.id" target="_blank"><h4>@user.name</h4></a><hr />
 }
 

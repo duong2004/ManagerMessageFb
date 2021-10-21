@@ -68,6 +68,9 @@
                     alert(response.message);
                     $('#txtContent').val('');
                 }
+                else {
+                    alert(response.message);
+                }
             }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("Xảy ra vấn đề, vui lòng quay lại sao.");
             });

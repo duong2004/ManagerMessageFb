@@ -28,6 +28,9 @@
         </div>
     </div>
     <div class="container body-content">
+        <div id="AlertBox" class="alert alert-success" role="alert" @*style="display: none;"*@>
+            Bạn có tin nhắn từ Dương Huỳnh đến quản trị viên A
+        </div>
         @RenderBody()
         <hr />
         <footer>
@@ -37,6 +40,25 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/signalr.js"></script>
+    <script type="text/javascript">
+        "use strict";
+        var connection = new signalR.HubConnectionBuilder().withUrl("https://chat.profile-working.com/notificationHub").build();
+        connection.on("SendNotificationMessage", (idTo, idFrom) => {
+            var content = "Bạn vừa nhận tin nhắn từ " + idTo + " đến quản trị viên " + idFrom;
+            $('#AlertBox').show();
+            $('#AlertBox').html(content);
+        });
+        connection.start().then(() => console.log('Connection started')).catch((err) => {
+            return console.log("Error : " + err.toString());
+        });
+    </script>
+    <script>
+        $(function () {
+            $('#AlertBox').removeClass('hide');
+            $('#AlertBox').delay(2000).slideUp(500);
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

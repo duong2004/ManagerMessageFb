@@ -18,6 +18,7 @@ namespace ManagerMessageFb.Controllers
         public ActionResult Index()
         {
             List<UserViewModels> users = null;
+            List<UserProfileViewModel> profiles = new List<UserProfileViewModel>();
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = new Uri("https://chat.profile-working.com/api/message/getmessageby/");
@@ -27,10 +28,36 @@ namespace ManagerMessageFb.Controllers
                 responseContent.Wait();
                 users = JsonConvert.DeserializeObject<List<UserViewModels>>(responseContent.Result.ToString());
             }
+            foreach (var user in users)
+            {
+                UserProfileViewModel profile = null;
+                var url = $"https://graph.facebook.com/{user.userMessage}?fields=name,id&access_token=EAALkiGIZAE5IBAG5H99RKPXn9oQ3RMe2yn24Iazcjy5wowXPOdZAf1XIOTpwfWvfx4GDqw47YOZBERGY28ZAdv8zwGbYv8Eok5lU05TLdiAw38aqIJNJzI3RKETiZAvZAimMZCZBZAK0CcZC3UtMrYhK4YwgEDwRthVYRfLIMRhIeeEOhe139UKOqC";
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.BaseAddress = new Uri(url);
+                    var response = Task.Run(() => httpClient.GetAsync(""));
+                    response.Wait();
+                    if (response.Result.StatusCode != System.Net.HttpStatusCode.BadRequest)
+                    {
+                        var responseContent = Task.Run(() => response.Result.Content.ReadAsStringAsync());
+                        responseContent.Wait();
+                        profile = JsonConvert.DeserializeObject<UserProfileViewModel>(responseContent.Result.ToString());
+                    }
+                    else
+                    {
+                        profile = new UserProfileViewModel()
+                        {
+                            id = user.userMessage,
+                            name = user.userMessage
+                        };
+                    }
+                }
+                profiles.Add(profile);
+            }
             ChatViewModels model = new ChatViewModels()
             {
                 id = "2",
-                userViews = users
+                userViews = profiles
             };
             return View(model);
         }
@@ -38,6 +65,7 @@ namespace ManagerMessageFb.Controllers
         public ActionResult IndexB()
         {
             List<UserViewModels> users = null;
+            List<UserProfileViewModel> profiles = new List<UserProfileViewModel>();
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = new Uri("https://chat.profile-working.com/api/message/getmessageby/");
@@ -47,10 +75,36 @@ namespace ManagerMessageFb.Controllers
                 responseContent.Wait();
                 users = JsonConvert.DeserializeObject<List<UserViewModels>>(responseContent.Result.ToString());
             }
+            foreach (var user in users)
+            {
+                UserProfileViewModel profile = null;
+                var url = $"https://graph.facebook.com/{user.userMessage}?fields=name,id&access_token=EAALkiGIZAE5IBAG5H99RKPXn9oQ3RMe2yn24Iazcjy5wowXPOdZAf1XIOTpwfWvfx4GDqw47YOZBERGY28ZAdv8zwGbYv8Eok5lU05TLdiAw38aqIJNJzI3RKETiZAvZAimMZCZBZAK0CcZC3UtMrYhK4YwgEDwRthVYRfLIMRhIeeEOhe139UKOqC";
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.BaseAddress = new Uri(url);
+                    var response = Task.Run(() => httpClient.GetAsync(""));
+                    response.Wait();
+                    if (response.Result.StatusCode != System.Net.HttpStatusCode.BadRequest)
+                    {
+                        var responseContent = Task.Run(() => response.Result.Content.ReadAsStringAsync());
+                        responseContent.Wait();
+                        profile = JsonConvert.DeserializeObject<UserProfileViewModel>(responseContent.Result.ToString());
+                    }
+                    else
+                    {
+                        profile = new UserProfileViewModel()
+                        {
+                            id = user.userMessage,
+                            name = user.userMessage
+                        };
+                    }
+                }
+                profiles.Add(profile);
+            }
             ChatViewModels model = new ChatViewModels()
             {
                 id = "1",
-                userViews = users
+                userViews = profiles
             };
             return View(model);
         }
@@ -99,6 +153,11 @@ namespace ManagerMessageFb.Controllers
                 response.Wait();
                 var responseContent = Task.Run(() => response.Result.Content.ReadAsStringAsync());
                 responseContent.Wait();
+                if (response.Result.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                {
+                    result = "Không gửi được, vui lòng gửi lại sau!";
+                    success = false;
+                }
             }
             return Json(new
             {
